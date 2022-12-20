@@ -40,6 +40,13 @@ public class Employee {
         this.role = role;
     }
 
+    public Employee(int ers_user_id, String ers_first_name, String ers_last_name, Role role) {
+        this.ers_user_id = ers_user_id;
+        this.ers_first_name = ers_first_name;
+        this.ers_last_name = ers_last_name;
+        this.role = role;
+    }
+
     public int getErs_user_id() {
         return ers_user_id;
     }

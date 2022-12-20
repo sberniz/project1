@@ -1,5 +1,6 @@
 package com.project1;
 
+import com.project1.controllers.AuthController;
 import com.project1.controllers.EmployeeController;
 import com.project1.controllers.ReimbController;
 import io.javalin.Javalin;
@@ -16,6 +17,7 @@ public class Launcher {
         ).start(3000);
         //Employee controller instantiate
         EmployeeController ec = new EmployeeController();
+        AuthController authc = new AuthController();
 
         //Login Feature Controller
         app.post("/register",ec.insertEmployeeHandler);
@@ -24,6 +26,9 @@ public class Launcher {
         //tickets controller
         ReimbController reimb = new ReimbController();
         app.get("/tickets",reimb.getReimbursementHandler);
+        //submit tickets
+        app.post("/tickets",reimb.submtReimbursementHandler);
+        app.post("/login",authc.loginHandler);
 
     }
 }

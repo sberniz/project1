@@ -2,14 +2,14 @@ package com.project1.models;
 
 public class LoginDTO {
     private String username;
-    private String pasword;
+    private String password;
 
     public LoginDTO() {
     }
 
-    public LoginDTO(String username, String pasword) {
+    public LoginDTO(String username, String password) {
         this.username = username;
-        this.pasword = pasword;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -20,11 +20,11 @@ public class LoginDTO {
         this.username = username;
     }
 
-    public String getPasword() {
-        return pasword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasword(String pasword) {
-        this.pasword = pasword;
+    public void setPasword(String password) {
+        this.password = password;
     }
 }

@@ -26,7 +26,13 @@ public class EmployeeDAO implements EmployeeDAOInterface{
 
         }
         catch(SQLException e){
-            e.printStackTrace();
+
+            System.out.println(e.getMessage());
+            System.out.println("Error Code: " +
+                    ((SQLException)e).getErrorCode());
+            //e.printStackTrace();
+            int err = e.getErrorCode();
+            System.out.println(err);
         }
         return null;
     }
@@ -66,6 +72,7 @@ public class EmployeeDAO implements EmployeeDAOInterface{
 
     catch(SQLException e){
         e.printStackTrace(); //if somethign gos wrong it will display mesage
+
     }
         return null;
     }

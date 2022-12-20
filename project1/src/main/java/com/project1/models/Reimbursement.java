@@ -7,8 +7,19 @@ public class Reimbursement {
     private Employee emp;
     private ReimbType reimbtype;
     private ReimbStatus reimbstatus;
+    private int ers_users_fk;
+    private int ers_reimb_type_fk;
+    private int ers_reimb_status_fk;
 
     public Reimbursement() {
+    }
+
+    public Reimbursement(int ers_reimb_amount, String ers_reimb_description, int ers_users_fk, int ers_reimb_type_fk, int ers_reimb_status_fk) {
+        this.ers_reimb_amount = ers_reimb_amount;
+        this.ers_reimb_description = ers_reimb_description;
+        this.ers_users_fk = ers_users_fk;
+        this.ers_reimb_type_fk = ers_reimb_type_fk;
+        this.ers_reimb_status_fk = ers_reimb_status_fk;
     }
 
     public Reimbursement(int ers_reimb_id, int ers_reimb_amount, String ers_reimb_description, Employee emp, ReimbType reimbtype, ReimbStatus reimbstatus) {
@@ -66,5 +77,29 @@ public class Reimbursement {
 
     public void setReimbstatus(ReimbStatus reimbstatus) {
         this.reimbstatus = reimbstatus;
+    }
+
+    public int getErs_users_fk() {
+        return ers_users_fk;
+    }
+
+    public void setErs_users_fk(int ers_users_fk) {
+        this.ers_users_fk = ers_users_fk;
+    }
+
+    public int getErs_reimb_type_fk() {
+        return ers_reimb_type_fk;
+    }
+
+    public void setErs_reimb_type_fk(int ers_reimb_type_fk) {
+        this.ers_reimb_type_fk = ers_reimb_type_fk;
+    }
+
+    public int getErs_reimb_status_fk() {
+        return ers_reimb_status_fk;
+    }
+
+    public void setErs_reimb_status_fk(int ers_reimb_status_fk) {
+        this.ers_reimb_status_fk = ers_reimb_status_fk;
     }
 }

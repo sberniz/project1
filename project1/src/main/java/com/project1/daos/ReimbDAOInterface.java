@@ -6,5 +6,6 @@ import com.project1.models.Role;
 import java.util.ArrayList;
 
 public interface ReimbDAOInterface {
-    ArrayList<Reimbursement> getReimbursement();
+    ArrayList<Reimbursement> getReimbursement(int emp_id, int role_id);
+    Reimbursement submitReimbursement(Reimbursement reimb);
 }
