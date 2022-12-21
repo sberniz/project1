@@ -85,4 +85,38 @@ public class ReimbDAO implements ReimbDAOInterface{
         }
         return null;
     }
+
+    @Override
+    public boolean process_reimb(int reimb_id, int reimb_status) {
+        try(Connection conn = com.revature.utils.ConnectionUtil.getConnection()){
+            //Check status sql
+            String sql_check = "SELECT ers_reimb_status_fk FROM ers_reimbursement WHERE ers_reimb_id = ?;";
+            PreparedStatement ps1 = conn.prepareStatement(sql_check);
+            ps1.setInt(1,reimb_id);
+            ResultSet rs = ps1.executeQuery();
+            if(rs.next()){
+                int status = rs.getInt("ers_reimb_status_fk");
+                if(status == 1){
+                    String sql = "UPDATE ers_reimbursement SET ers_reimb_status_fk = ? WHERE ers_reimb_id = ?;";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setInt(2,reimb_id);
+                    ps.setInt(1,reimb_status);
+                    ps.executeUpdate();
+                    return true;
+
+                }
+                else{
+                    return false;
+                }
+            }
+
+
+
+
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 }

@@ -47,4 +47,32 @@ public class ReimbController {
         }
 
     };
+    public Handler processReimbHandler = (ctx) ->{
+        if(AuthController.ses != null){
+            int role_id = (Integer) ses.getAttribute("ses_role_id");
+            if(role_id == 1){
+
+
+            int reimb_id = Integer.parseInt(ctx.pathParam("reimb_id"));
+            int status_fk = Integer.parseInt(ctx.body());
+            if(reimbDAO.process_reimb(reimb_id,status_fk) == true){
+                ctx.status(202);
+                ctx.result("Process correctly");
+            }
+            else{
+                ctx.result("Reimbursement already processed");
+                ctx.status(403);
+            }
+        }
+            else{
+                ctx.result("You must be a manager to do this process");
+                ctx.status(403);
+            }
+        }
+
+        else{
+            ctx.result("Please Login First");
+            ctx.status(403);
+        }
+    };
 }

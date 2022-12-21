@@ -29,6 +29,7 @@ public class Launcher {
         //submit tickets
         app.post("/tickets",reimb.submtReimbursementHandler);
         app.post("/login",authc.loginHandler);
+        app.patch("/tickets/{reimb_id}",reimb.processReimbHandler);
 
     }
 }

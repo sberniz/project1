@@ -26,8 +26,9 @@ public class EmployeeDAO implements EmployeeDAOInterface{
 
         }
         catch(SQLException e){
+            String errm = e.getMessage();
 
-            System.out.println(e.getMessage());
+            System.out.println(errm.substring(errm.lastIndexOf("=")+1));
             System.out.println("Error Code: " +
                     ((SQLException)e).getErrorCode());
             //e.printStackTrace();
