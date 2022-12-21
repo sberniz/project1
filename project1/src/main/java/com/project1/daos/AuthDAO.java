@@ -20,6 +20,7 @@ public class AuthDAO {
             if (rs.next()) {
                 Employee e = new Employee(
                         rs.getInt("ers_user_id"),
+                        rs.getString("ers_username"),null,
                         rs.getString("ers_first_name"),
                         rs.getString("ers_last_name"),
                         null

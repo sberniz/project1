@@ -35,10 +35,39 @@ public class ReimbController {
 
         String body = ctx.body();
         Gson gson = new Gson();
+        if(body.equals("")){
+            ctx.result("Body Can't be Empty Please add amount and description");
+            ctx.status(403);
+        }
+        else {
+
+
         Reimbursement reimb = gson.fromJson(body,Reimbursement.class);
-        if(reimbDAO.submitReimbursement(reimb) != null){
-            ctx.result(body);
-            ctx.status(202);
+        if(reimb.getErs_reimb_amount() == 0 || reimb.getErs_reimb_description() == null){
+            ctx.result("Must enter amount and description to proces ticket");
+            ctx.status(403);
+        }
+        else {
+
+
+            if ((Integer) ses.getAttribute("ses_role_id") != 1 || (reimb.getErs_users_fk() == 0 || reimb.getErs_users_fk() > 3)) {
+                reimb.setErs_users_fk((Integer) ses.getAttribute("ses_emp_id"));
+
+            }
+            if (reimb.getErs_reimb_type_fk() == 0 || reimb.getErs_reimb_type_fk() > 3) {
+                reimb.setErs_reimb_type_fk(3);
+            }
+            if (reimbDAO.submitReimbursement(reimb) != null) {
+                String sub = "Submission processed successfully\n Amount: "+reimb.getErs_reimb_amount()+"\nDescription: "+reimb.getErs_reimb_description();
+                ctx.result(sub);
+                ctx.status(202);
+            }
+            else{
+                ctx.result("Something went wrong");
+                ctx.status(500);
+            }
+        }
+
         }
         }
         else{

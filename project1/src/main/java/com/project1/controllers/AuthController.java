@@ -22,8 +22,9 @@ public class AuthController {
             ses.setAttribute("ses_role_id",loginEmployee.getRole().getRole_id());
 
 
-            String usergson = gson.toJson(loginEmployee);
-            ctx.result(usergson);
+            //String usergson = gson.toJson(loginEmployee);
+            String welcome = "Welcome "+loginEmployee.getErs_username()+" Youa re Logged in \nRole: "+loginEmployee.getRole().getRole();
+            ctx.result(welcome);
             ctx.status(202);
         }
         else{

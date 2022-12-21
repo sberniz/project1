@@ -2,6 +2,7 @@ package com.project1.daos;
 
 import com.project1.models.Employee;
 import com.project1.models.Role;
+import io.javalin.http.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,17 +11,21 @@ import java.sql.SQLException;
 
 public class EmployeeDAO implements EmployeeDAOInterface{
     @Override
-    public Employee insertEmployee(Employee emp) { //Method to Register Employee
+    public Employee insertEmployee(Employee emp, Context ctx) { //Method to Register Employee
         try(Connection conn = com.revature.utils.ConnectionUtil.getConnection()){
             //Insert Register Employee
             String sql = "INSERT INTO ers_users (ers_username,ers_password,ers_first_name,ers_last_name,ers_role_id_fk)" +
                     "VALUES (?,?,?,?,?);";
+            int role_id_fk = emp.getRole_id_fk();
+            if(role_id_fk == 0){
+                role_id_fk = 2;
+            }
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,emp.getErs_username());
             ps.setString(2,emp.getErs_password());
             ps.setString(3,emp.getErs_first_name());
             ps.setString(4,emp.getErs_last_name());
-            ps.setInt(5,emp.getRole_id_fk());
+            ps.setInt(5,role_id_fk);
             ps.executeUpdate();
             return emp;
 
@@ -29,11 +34,8 @@ public class EmployeeDAO implements EmployeeDAOInterface{
             String errm = e.getMessage();
 
             System.out.println(errm.substring(errm.lastIndexOf("=")+1));
-            System.out.println("Error Code: " +
-                    ((SQLException)e).getErrorCode());
-            //e.printStackTrace();
-            int err = e.getErrorCode();
-            System.out.println(err);
+            ctx.result(errm.substring(errm.lastIndexOf("=")+1));
+
         }
         return null;
     }

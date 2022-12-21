@@ -1,12 +1,13 @@
 package com.project1.daos;
 
 import com.project1.models.Employee;
+import io.javalin.http.Context;
 
 public interface EmployeeDAOInterface {
 
     //Register Employee
     //(Insert DB)
-    Employee insertEmployee(Employee emp); //register
+    Employee insertEmployee(Employee emp, Context ctx); //register
     Employee getEmployeeById(int id);
 
     //if role is manager. view pending tickets?

@@ -10,14 +10,32 @@ public class EmployeeController {
     //Insert Employee Handler (Register)
     public Handler insertEmployeeHandler = (ctx) ->{
         String body = ctx.body();
+        System.out.println(body);
+        if(body.equals("")){
+            ctx.result("Body Can't be Empty Must Have Username and Password");
+            ctx.status(404);
+        }
+        else{
+
         Gson gson = new Gson();
         Employee emp = gson.fromJson(body, Employee.class);
-        if(eDAO.insertEmployee(emp) != null){
+            if(emp.getErs_username() == null || emp.getErs_password() == null){
+                ctx.result("Either Username or Password is blank must register with username and password");
+
+            }
+            else {
+
+
+        if(eDAO.insertEmployee(emp,ctx) != null){
             ctx.status(201);
-            ctx.result(body);
+            String welcome = emp.getErs_username()+" Registered Successfully";
+            ctx.result(welcome);
         }
         else{
             ctx.status(406);
+        }
+            }
+
         }
 
 
