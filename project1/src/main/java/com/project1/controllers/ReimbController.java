@@ -79,18 +79,26 @@ public class ReimbController {
     public Handler processReimbHandler = (ctx) ->{
         if(AuthController.ses != null){
             int role_id = (Integer) ses.getAttribute("ses_role_id");
-            if(role_id == 1){
+            if(role_id == 1) {
 
 
-            int reimb_id = Integer.parseInt(ctx.pathParam("reimb_id"));
-            int status_fk = Integer.parseInt(ctx.body());
-            if(reimbDAO.process_reimb(reimb_id,status_fk) == true){
-                ctx.status(202);
-                ctx.result("Process correctly");
-            }
-            else{
-                ctx.result("Reimbursement already processed");
-                ctx.status(403);
+                int reimb_id = Integer.parseInt(ctx.pathParam("reimb_id"));
+                int status_fk = Integer.parseInt(ctx.body());
+                if (status_fk != 2 && status_fk != 3) {
+                    String body = ctx.body();
+                    ctx.result("Status not available *use 2 for approve and 3 to deny");
+                    System.out.println(status_fk == 2);
+
+                    ctx.status(403);
+                } else {
+
+
+                if (reimbDAO.process_reimb(reimb_id, status_fk,ctx) == true) {
+                    ctx.status(202);
+
+                } else {
+                    ctx.status(403);
+                }
             }
         }
             else{

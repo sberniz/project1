@@ -1,6 +1,7 @@
 package com.project1.daos;
 
 import com.project1.models.*;
+import io.javalin.http.Context;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -87,13 +88,14 @@ public class ReimbDAO implements ReimbDAOInterface{
     }
 
     @Override
-    public boolean process_reimb(int reimb_id, int reimb_status) {
+    public boolean process_reimb(int reimb_id, int reimb_status, Context ctx) {
         try(Connection conn = com.revature.utils.ConnectionUtil.getConnection()){
             //Check status sql
             String sql_check = "SELECT ers_reimb_status_fk FROM ers_reimbursement WHERE ers_reimb_id = ?;";
             PreparedStatement ps1 = conn.prepareStatement(sql_check);
             ps1.setInt(1,reimb_id);
             ResultSet rs = ps1.executeQuery();
+            System.out.println(rs.toString());
             if(rs.next()){
                 int status = rs.getInt("ers_reimb_status_fk");
                 if(status == 1){
@@ -102,12 +104,19 @@ public class ReimbDAO implements ReimbDAOInterface{
                     ps.setInt(2,reimb_id);
                     ps.setInt(1,reimb_status);
                     ps.executeUpdate();
+                    ctx.result("Reimbursement for Reimburement id: "+reimb_id+" Processed correctly");
                     return true;
 
                 }
                 else{
+                    ctx.result("Reimbursement ID: "+reimb_id+" Has Already Been Processed");
                     return false;
                 }
+            }
+            else{
+                System.out.println("String Empty");
+                ctx.result("reimbursement id: "+reimb_id+" Does not exists");
+                return false;
             }
 
 
